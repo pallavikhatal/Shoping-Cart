@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+</head>
+
+<body>
+    <div id="cart-page" style="display: none;">
+        <h1>Cart</h1>
+        <div id="cart-products"></div>
+    </div>
+
+
+    <script>
+
+        function showCart() {
+
+            const cartPage = document.getElementById('cart-page');
+
+            cartPage.style.display = 'block';
+
+            const cartProducts = document.getElementById('cart-products');
+
+            cartProducts.innerHTML = '';
+
+            cart.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+        <h5>${product.title.slice(0, 10)}...</h5>
+      <p>${product.description.slice(0, 50)}...</p>
+      <img src="${product.image}" alt="${product.title}">
+      <div id="card-btns">    
+          <span>${product.price}</span>
+          <button onclick="removeFromCart(${product.id})">Remove from Cart</button>
+      </div>
+      `;
+                cartProducts.appendChild(productCard);
+            });
+        }
+
+        function removeFromCart(productId) {
+
+            const productIndex = cart.findIndex(product => product.id === productId);
+
+            cart.splice(productIndex, 1);
+
+            document.getElementById('cart-button').innerHTML = `Cart (${cart.length})`;
+
+            showCart();
+        }
+
+    </script>
+</body>
+
+</html>

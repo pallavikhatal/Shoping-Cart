@@ -1,0 +1,31 @@
+const fetchProducts = () => {
+
+fetch('https://fakestoreapi.com/products')
+  .then(response => response.json())  
+  .then(products => {
+    console.log(products);
+    
+    const container = document.getElementById('product-container'); 
+
+    products.forEach(product => {
+    
+      const card = document.createElement('div');
+      card.className = 'product-card';
+
+      card.innerHTML = `
+        <h5>${product.title.slice(0, 10)}...</h5>
+        <p>${product.description.slice(0, 50)}...</p>
+        <img src="${product.image}" alt="${product.title}">  
+        <div id="card-btns">    
+            <span>$${product.price}</span>
+            <button onclick="alert('Added ${product.title} to cart!')">Add to Cart</button>
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+  })
+  .catch(error => console.log('Error:', error));  
+}
+
+window.addEventListener('DOMContentLoaded', fetchProducts);

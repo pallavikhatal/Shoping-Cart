@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>PK Super Market</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    .container-fluid {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      gap: 2rem;
+      padding: 0 3rem;
+    }
+
+    input {
+      margin-left: 300px;
+      padding: 10px;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-left: 10px;
+      background-color: rgb(252, 5, 5);
+      border: 1px solid rgb(182, 3, 3);
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: rgb(254, 137, 4);
+    }
+
+    .loader-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .spinner {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #2a9d8f;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    #header-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      padding: 3rem 0;
+    }
+
+    #header-content p {
+      font-weight: bolder;
+      font-size: 1.5rem;
+    }
+
+    #product-container, #cart-products {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      padding: 20px;
+    }
+
+    .product-card {
+      border: 1px solid #ddd;
+      padding: 20px;
+      width: 300px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+      background: white;
+    }
+
+    .product-card:hover {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      transform: scale(1.05);
+    }
+
+    .product-card img {
+      max-width: 100%;
+      width: 150px;
+      height: 200px;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+
+    .product-card h5 {
+      margin: 10px 0;
+    }
+
+    .product-card p {
+      font-size: 0.8rem;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .product-card #card-btns {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .product-card span {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #2a9d8f;
+      margin-bottom: 10px;
+    }
+
+    .product-card button {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      font-weight: bolder;
+      background: white;
+      color: black;
+      padding: 5px 15px;
+      border: 2px solid black;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .product-card button:hover {
+      background: #2a9d8f;
+      color: white;
+    }
+
+    footer {
+      background-color: black;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+      height: 250px;
+      margin-top: 50px;
+    }
+
+    footer #icons {
+      display: flex;
+      justify-content: space-between;
+      gap: 3rem;
+      padding: 5rem 0;
+      font-size: 3rem;
+    }
+
+    #cart-page {
+      display: none;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="loader" class="loader-container">
+    <div class="spinner"></div>
+  </div>
+
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTz1xVR-_MF8rui7EUbpNEukhfHw66vZyOPPA&s"
+            alt="Logo" height="60px">
+        </a>
+
+        <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
+          <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search for products...">
+            <button onclick="searchProducts()">Search</button>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center">
+          <a href="#" class="shopping-icon ms-3">
+            <i class="fa-solid fa-bag-shopping fs-1 text-light" onclick="showCart()"></i>
+            <span id="cart-counter" class="cart-counter text-light">0</span>
+          </a>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div id="header-content">
+      <p>BEST OF PK EXCLUSIVE BRANDS</p>
+      <div class="btns">
+        <button class="btn btn-outline-dark border-2" onclick="filterProducts('all')">ALL</button>
+        <button class="btn btn-outline-dark border-2" onclick="filterProducts(`men's clothing`)">MEN'S CLOTHING</button>
+        <button class="btn btn-outline-dark border-2" onclick="filterProducts(`women's clothing`)">WOMEN'S CLOTHING</button>
+        <button class="btn btn-outline-dark border-2" onclick="filterProducts('jewelery')">JEWELERY</button>
+        <button class="btn btn-outline-dark border-2" onclick="filterProducts('electronics')">ELECTRONICS</button>
+      </div>
+    </div>
+
+    <div id="product-container"></div>
+    <div id="cart-page">
+      <h3>Your Cart</h3>
+      <div id="cart-products"></div>
+    </div>
+  </main>
+
+  <footer>
+    <div id="icons">
+      <i class="fa-brands fa-square-facebook"></i>
+      <i class="fa-brands fa-square-github"></i>
+      <i class="fa-brands fa-square-twitter"></i>
+      <i class="fa-brands fa-linkedin"></i>
+    </div>
+    <div id="copy">
+      <p>©2025 Pallavi Khatal Supermarket</p>
+    </div>
+  </footer>
+
+  <script>
+    let allProducts = [];
+    let cart = [];
+
+    const fetchProducts = () => {
+      document.getElementById('loader').style.display = 'flex';
+
+      fetch('https://fakestoreapi.com/products')
+        .then(res => res.json())
+        .then(data => {
+          allProducts = data;
+          displayProducts(allProducts);
+        })
+        .catch(err => console.error(err))
+        .finally(() => {
+          document.getElementById('loader').style.display = 'none';
+        });
+    };
+
+    const displayProducts = (products) => {
+      document.getElementById('product-container').style.display = 'flex';
+      document.getElementById('cart-page').style.display = 'none';
+
+      const container = document.getElementById('product-container');
+      container.innerHTML = '';
+
+      products.forEach(product => {
+        const isInCart = cart.some(item => item.id === product.id);
+        const buttonText = isInCart ? 'Remove from Cart' : 'Add to Cart';
+        const buttonAction = isInCart ? `removeFromCart(${product.id})` : `addToCart(${product.id})`;
+
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <h5>${product.title.slice(0, 10)}...</h5>
+          <p>${product.description.slice(0, 50)}...</p>
+          <img src="${product.image}" alt="${product.title}">
+          <div id="card-btns">    
+              <span>$${product.price}</span>
+              <button onclick="${buttonAction}">${buttonText}</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    };
+
+    const addToCart = (productId) => {
+      const product = allProducts.find(p => p.id === productId);
+      if (!cart.some(p => p.id === productId)) {
+        cart.push(product);
+      }
+      document.getElementById('cart-counter').innerText = cart.length;
+      displayProducts(allProducts);
+    };
+
+    const removeFromCart = (productId) => {
+      cart = cart.filter(p => p.id !== productId);
+      document.getElementById('cart-counter').innerText = cart.length;
+      displayProducts(allProducts);
+    };
+
+    const showCart = () => {
+      document.getElementById('product-container').style.display = 'none';
+      document.getElementById('cart-page').style.display = 'block';
+
+      const cartContainer = document.getElementById('cart-products');
+      cartContainer.innerHTML = '';
+
+      if (cart.length === 0) {
+        cartContainer.innerHTML = '<p>Your cart is empty.</p>';
+        return;
+      }
+
+      cart.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <h5>${product.title.slice(0, 10)}...</h5>
+          <p>${product.description.slice(0, 50)}...</p>
+          <img src="${product.image}" alt="${product.title}">
+          <div id="card-btns">    
+              <span>$${product.price}</span>
+              <button onclick="removeFromCart(${product.id})">Remove from Cart</button>
+          </div>
+        `;
+        cartContainer.appendChild(card);
+      });
+    };
+
+    const searchProducts = () => {
+      const searchTerm = document.getElementById('search-input').value.toLowerCase();
+      const filtered = allProducts.filter(product =>
+        product.title.toLowerCase().includes(searchTerm) ||
+        product.description.toLowerCase().includes(searchTerm)
+      );
+      displayProducts(filtered);
+    };
+
+    const filterProducts = (category) => {
+      if (category === 'all') return displayProducts(allProducts);
+      const filtered = allProducts.filter(p => p.category === category);
+      displayProducts(filtered);
+    };
+
+    window.addEventListener('DOMContentLoaded', fetchProducts);
+  </script>
+</body>
+</html>

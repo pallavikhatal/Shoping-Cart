@@ -2,97 +2,99 @@
 <html lang="en">
 
 <head>
-    <title>PK Super Market</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>PK Super Market</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <!-- Font Awesome cdns -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Font Awesome cdns -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Bootstrap CSS v5.2.1 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
 
-    <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <header>
-        <div id="navbar">
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg">
-              <div class="container-fluid justify-content-between mx-5 px-5">
 
-                <a class="navbar-brand" href="#">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTz1xVR-_MF8rui7EUbpNEukhfHw66vZyOPPA&s"
-                    alt="Logo" height="60px">
-                </a>
+  <div id="loader" class="loader-container">
+    <div class="spinner"></div>
+  </div>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTz1xVR-_MF8rui7EUbpNEukhfHw66vZyOPPA&s"
+            alt="Logo" height="60px">
+        </a>
 
-                <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
-          
-                  <form class="d-flex mx-auto">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-light" type="submit">Search</button>
-                  </form>
-          
-                  <div class="d-flex align-items-center">
-                    <a href="#" class="shopping-icon ms-3">
-                      <i class="fa-solid fa-bag-shopping fs-1 text-light"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </nav>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
+          <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search for products...">
+            <button onclick="searchProducts()">Search</button>
           </div>
-    </header>
-
-    <main>
-        <div id="header-content">
-            <p>BEST OF PK EXCLUSIVE BRANDS</p>
-
-            <div class="btns">
-                <button type="button" class="btn btn-outline-dark border-2">ALL</button>
-                <button type="button" class="btn btn-outline-dark border-2">MEN'S CLOTHING</button>
-                <button type="button" class="btn btn-outline-dark border-2">WOMEN'S CLOTHING</button>
-                <button type="button" class="btn btn-outline-dark border-2">JEWELERY</button>
-                <button type="button" class="btn btn-outline-dark border-2">ELECTRONICS</button>
-            </div>
         </div>
 
-        <div id="product-container">
-
-        </div>
-    </main>
-
-    <footer>
-        <div id="icons">
-            <i class="fa-brands fa-square-facebook"></i>
-            <i class="fa-brands fa-square-github"></i>
-            <i class="fa-brands fa-square-twitter"></i>
-            <i class="fa-brands fa-linkedin"></i>
+        <div class="d-flex align-items-center">
+          <a href="#" class="shopping-icon ms-3">
+            <i class="fa-solid fa-bag-shopping fs-1 text-light" onclick="showCart()"></i>
+            <span id="cart-counter" class="cart-counter text-light">0</span>
+          </a>
         </div>
 
-        <div id="copy">
-            <p>©2025 Pallavi Khatal Supermarket</p>
-        </div>
-    </footer>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
 
-    <script src="script.js"></script>
+  <main>
+    <div id="header-content">
+      <p>BEST OF PK EXCLUSIVE BRANDS</p>
+      <div class="btns">
+        <button class="btn btn-outline-dark border-2" onclick="filterProducts('all')">ALL</button>
+        <button class="btn btn-outline-dark border-2" onclick="filterProducts(`men's clothing`)">MEN'S CLOTHING</button>
+        <button class="btn btn-outline-dark border-2" onclick="filterProducts(`women's clothing`)">WOMEN'S CLOTHING</button>
+        <button class="btn btn-outline-dark border-2" onclick="filterProducts('jewelery')">JEWELERY</button>
+        <button class="btn btn-outline-dark border-2" onclick="filterProducts('electronics')">ELECTRONICS</button>
+      </div>
+    </div>
 
-    <!-- Bootstrap JavaScript Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
+    <div id="product-container"></div>
+    <div id="cart-page">
+      <h3 class="text-center">Your Cart</h3>
+      <div id="cart-products"></div>
+    </div>
+  </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-        crossorigin="anonymous"></script>
+  <footer>
+    <div id="icons">
+      <i class="fa-brands fa-square-facebook"></i>
+      <i class="fa-brands fa-square-github"></i>
+      <i class="fa-brands fa-square-twitter"></i>
+      <i class="fa-brands fa-linkedin"></i>
+    </div>
+    <div id="copy">
+      <p>©2025 Pallavi Khatal Supermarket</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>
